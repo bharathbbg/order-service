@@ -10,11 +10,11 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/bharathbbg/order-service/internal/api/grpc"
 	"github.com/bharathbbg/order-service/internal/api/rest"
 	"github.com/bharathbbg/order-service/internal/config"
 	"github.com/bharathbbg/order-service/internal/repository"
 	"github.com/bharathbbg/order-service/internal/service"
+	ggrpc "google.golang.org/grpc"
 )
 
 func main() {
@@ -41,7 +41,7 @@ func main() {
 	svc := service.NewOrderService(repo, cache)
 
 	// Initialize gRPC server
-	grpcServer := grpc.NewServer(svc)
+	grpcServer := ggrpc.NewServer()
 	go func() {
 		lis, err := net.Listen("tcp", cfg.GRPCAddr)
 		if err != nil {
